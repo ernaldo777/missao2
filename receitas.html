@@ -1,0 +1,198 @@
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo de Receitas</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Definindo tamanho uniforme para as imagens */
+        .card-img-top {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        /* Definindo uma altura fixa para a lista de ingredientes */
+        .ingredientes-list {
+            min-height: 150px; /* Ajuste conforme necessário */
+            max-height: 150px;
+            overflow-y: auto;
+        }
+
+        /* Estilizando os cards com pseudoclasses */
+        .card:hover {
+            transform: scale(1.05);
+            transition: transform 0.3s;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Pseudoelemento para adicionar uma borda decorativa */
+        .card::after {
+            content: "";
+            display: block;
+            height: 5px;
+            background: linear-gradient(to right, #ff7e5f, #feb47b);
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body class="bg-warning" onload="preencheCatalogo()">
+    <div class="container-fluid">
+        <h1 class="text-center mt-4">Catálogo de Receitas</h1>
+        
+        <!-- Área principal para o catálogo das receitas -->
+        <div id="pnlCatalogo" class="d-flex flex-wrap justify-content-center mt-4">
+            <!-- Os painéis das receitas serão adicionados aqui -->
+        </div>
+    </div>
+
+    <!-- Espaço reservado para futuras funcionalidades em JavaScript -->
+    <script>
+        // Organizando os dados das receitas em um vetor de elementos JSON
+        const receitas = [
+            {
+                titulo: "Bolo de Chocolate",
+                imagem: "./bolo-chocolate.jpg",
+                preparo: "Misture os ingredientes e leve ao forno por 40 minutos.",
+                ingredientes: [
+                    "2 xícaras de farinha de trigo",
+                    "1 xícara de açúcar",
+                    "1 xícara de chocolate em pó",
+                    "2 ovos",
+                    "1 xícara de leite",
+                    "1/2 xícara de óleo",
+                    "1 colher de fermento em pó"
+                ]
+            },
+            {
+                titulo: "Lasanha de Berinjela",
+                imagem: "./lasanha-berinjela.jpg",
+                preparo: "Intercale camadas de berinjela e molho. Asse por 30 minutos.",
+                ingredientes: [
+                    "2 berinjelas grandes",
+                    "500g de molho de tomate",
+                    "200g de queijo mussarela",
+                    "200g de presunto",
+                    "Sal e pimenta a gosto",
+                    "Azeite para untar"
+                ]
+            },
+            {
+                titulo: "Salada Caesar",
+                imagem: "./salada-caesar.jpg",
+                preparo: "Misture a alface, o frango, o queijo e os croutons. Adicione o molho e sirva.",
+                ingredientes: [
+                    "1 pé de alface romana",
+                    "200g de peito de frango grelhado",
+                    "50g de queijo parmesão ralado",
+                    "100g de croutons",
+                    "Molho Caesar a gosto"
+                ]
+            },
+            {
+                titulo: "Brigadeiro",
+                imagem: "./brigadeiro.jpg",
+                preparo: "Misture o leite condensado, o chocolate em pó e a manteiga. Leve ao fogo baixo, mexendo sempre, até desgrudar do fundo da panela.",
+                ingredientes: [
+                    "1 lata de leite condensado",
+                    "2 colheres de sopa de chocolate em pó",
+                    "1 colher de sopa de manteiga",
+                    "Chocolate granulado para decorar"
+                ]
+            },
+            {
+                titulo: "Pizza Margherita",
+                imagem: "./pizza-margherita.jpg",
+                preparo: "Prepare a massa e espalhe o molho de tomate. Adicione fatias de muçarela, rodelas de tomate e folhas de manjericão. Asse em forno preaquecido por 15 minutos.",
+                ingredientes: [
+                    "300g de massa para pizza",
+                    "200g de molho de tomate",
+                    "200g de queijo muçarela",
+                    "2 tomates em rodelas",
+                    "Folhas de manjericão",
+                    "Azeite a gosto",
+                    "Sal a gosto"
+                ]
+            },
+            {
+                titulo: "Sopa de Legumes",
+                imagem: "./sopa-legumes.jpg",
+                preparo: "Refogue os legumes em azeite, adicione água e cozinhe por 20 minutos. Tempere a gosto.",
+                ingredientes: [
+                    "2 cenouras em cubos",
+                    "2 batatas em cubos",
+                    "1 abobrinha em cubos",
+                    "1 cebola picada",
+                    "2 dentes de alho picados",
+                    "Azeite",
+                    "Sal e pimenta a gosto"
+                ]
+            },
+            {
+                titulo: "Torta de Limão",
+                imagem: "./torta-limao.jpg",
+                preparo: "Prepare a massa e asse. Misture o leite condensado com o suco de limão e despeje na massa. Leve à geladeira.",
+                ingredientes: [
+                    "1 pacote de biscoito maisena",
+                    "100g de manteiga derretida",
+                    "1 lata de leite condensado",
+                    "Suco de 2 limões",
+                    "Raspas de limão para decorar"
+                ]
+            },
+            {
+                titulo: "Frango Xadrez",
+                imagem: "./frango-xadrez.jpg",
+                preparo: "Refogue o frango e os vegetais. Adicione o molho shoyu e cozinhe por mais 5 minutos.",
+                ingredientes: [
+                    "500g de peito de frango em cubos",
+                    "1 pimentão verde em cubos",
+                    "1 cebola em cubos",
+                    "100g de amendoim",
+                    "4 colheres de sopa de shoyu",
+                    "Sal a gosto"
+                ]
+            }
+        ];
+
+        // Função getListaIngredientes: retorna uma lista de ingredientes em formato de HTML
+        function getListaIngredientes(receita) {
+            let listaHTML = '<ul class="ingredientes-list">';
+            listaHTML += receita.ingredientes
+                .map(ingrediente => `<li>${ingrediente}</li>`)
+                .reduce((acc, item) => acc + item, '');
+            listaHTML += '</ul>';
+            return listaHTML;
+        }
+
+        // Função getCard: retorna um card HTML para uma receita
+        function getCard(receita) {
+            return `
+                <div class="card m-2" style="width: 250px;">
+                    <img src="${receita.imagem}" class="card-img-top" alt="${receita.titulo}">
+                    <div class="card-body">
+                        <h5 class="card-title">${receita.titulo}</h5>
+                        <div class="card-text">
+                            ${getListaIngredientes(receita)}
+                            <hr>
+                            <p>${receita.preparo}</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Função preencheCatalogo: preenche o catálogo de receitas
+        function preencheCatalogo() {
+            const pnlCatalogo = document.getElementById('pnlCatalogo');
+            const cardsHTML = receitas
+                .map(receita => getCard(receita))
+                .reduce((acc, card) => acc + card, '');
+            pnlCatalogo.innerHTML = cardsHTML;
+        }
+    </script>
+</body>
+</html>
